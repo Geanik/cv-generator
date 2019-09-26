@@ -13,6 +13,7 @@
 <body>
 <div class="container">
     <h1>CV-Generator</h1>
+    <h3>General Information</h3>
     <form method="post" th:action="@{/update}" th:object="${cvInformation}">
         <div class="form-group">
             <label for="firstName">First name</label>
@@ -36,10 +37,41 @@
             <input class="form-control" id="jobTitle" placeholder="Enter job title" th:field="*{jobTitle}" type="text">
         </div>
         <div class="form-group">
-            <label for="academicDegree">Academic degree</label>
-            <input class="form-control" id="academicDegree" placeholder="Enter academic degree"
-                   th:field="*{academicDegree}" type="text">
+            <label for="fullAcademicDegree">Academic degree</label>
+            <input class="form-control" id="fullAcademicDegree" placeholder="Enter academic degree"
+                   th:field="*{fullAcademicDegree}" type="text">
         </div>
+
+        <h3>Education</h3>
+        <fieldset>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th><label for="instituteName">Institute</label></th>
+                    <th><label for="programmeName">Programme</label></th>
+                    <th><label for="academicDegree">Degree</label></th>
+                    <th><label for="from">From</label></th>
+                    <th><label for="to">To</label></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="educationEntry, itemStat : *{educationEntries}">
+                    <td><input id="instituteName" th:value="${educationEntry.instituteName}"/></td>
+                    <td><input id="programmeName" th:value="${educationEntry.programmeName}"/></td>
+                    <td><input id="academicDegree" th:value="${educationEntry.academicDegree}"/></td>
+                    <td><input id="from" th:value="${educationEntry.from}"/></td>
+                    <td><input id="to" th:value="${educationEntry.to}"/></td>
+                </tr>
+                <!--<tr>-->
+                <!--<td>-->
+                <!--<form method="post" th:action="@{/addEducationEntry}" th:object="${cvInformation}">-->
+                <!--<button class="btn btn-primary" type="submit">Add</button>-->
+                <!--</form>-->
+                <!--</td>-->
+                <!--</tr>-->
+                </tbody>
+            </table>
+        </fieldset>
 
         <button class="btn btn-primary" type="submit">Submit</button>
     </form>

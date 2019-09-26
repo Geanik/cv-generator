@@ -5,4 +5,10 @@ class CvInformation(var firstName: String,
                     var email: String,
                     var phone: String,
                     var jobTitle: String,
-                    var academicDegree: String)
+                    var fullAcademicDegree: String,
+                    var educationEntries: MutableList<EducationEntry>
+//                    var experienceEntries: MutableList<ExperienceEntry>,
+//                    var projectEntries: MutableList<ProjectEntry>,
+//                    var certificates: MutableList<Certificate>,
+//                    var skills: MutableList<String>
+)
