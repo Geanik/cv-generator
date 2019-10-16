@@ -9,7 +9,4 @@ services:
     - MYSQL_USER=db-user
     - MYSQL_PASSWORD=pw
     - MYSQL_ROOT_PASSWORD=root-pw
-#    volumes:
-#    - mysql-data:/var/lib/mysql
-#    - ./mysql_config:/etc/mysql
     restart: always

@@ -18,9 +18,7 @@ class DashboardController(private val cvGeneratorService: CvGeneratorService) {
 
     @GetMapping("/")
     fun getDashboard(model: Model): String {
-        currentInformation = cvGeneratorService.loadCvInformation()
-
-        model.addAttribute("cvInformation", currentInformation)
+        model.addAttribute("cvInformation", cvGeneratorService.loadCvInformation())
         return "dashboard"
     }
 
