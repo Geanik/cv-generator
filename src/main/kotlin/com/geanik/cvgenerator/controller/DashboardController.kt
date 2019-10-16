@@ -7,20 +7,33 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.context.annotation.SessionScope
 
 
 @Controller
+@SessionScope
 class DashboardController(private val cvGeneratorService: CvGeneratorService) {
+
+    private var currentInformation: CvInformation = CvInformation()
 
     @GetMapping("/")
     fun getDashboard(model: Model): String {
-        model.addAttribute("cvInformation", cvGeneratorService.loadCvInfromation())
+        currentInformation = cvGeneratorService.loadCvInformation()
+
+        model.addAttribute("cvInformation", currentInformation)
         return "dashboard"
     }
 
     @PostMapping("/update")
     fun updateInfo(@ModelAttribute cvInformation: CvInformation): String {
-        cvGeneratorService.saveCvInformation(cvInformation)
+        currentInformation.firstName = cvInformation.firstName
+        currentInformation.lastName = cvInformation.lastName
+        currentInformation.phone = cvInformation.phone
+        currentInformation.email = cvInformation.email
+        currentInformation.jobTitle = cvInformation.jobTitle
+        currentInformation.academicDegree = cvInformation.academicDegree
+
+        cvGeneratorService.saveCvInformation(currentInformation)
         return "redirect:/"
     }
 
