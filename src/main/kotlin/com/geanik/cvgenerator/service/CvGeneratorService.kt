@@ -1,20 +1,21 @@
 package com.geanik.cvgenerator.service
 
+import com.geanik.cvgenerator.data.CvInformationRepository
 import com.geanik.cvgenerator.model.CvInformation
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
 class CvGeneratorService {
 
-    private var cvInformation = CvInformation("Gea", "nik", "geanik@mail.com", "+43123", "Software Engineer", "BSc")
+    @Autowired
+    lateinit var cvInformationRepository: CvInformationRepository
 
-    fun loadCvInfromation(): CvInformation {
-        // TODO: load information
-        return cvInformation
-    }
+    fun loadCvInformation(): CvInformation
+        = cvInformationRepository.findAll().firstOrNull()
+            ?: CvInformation("Gea", "nik", "geanik@mail.com", "+43123", "Software Engineer", "BSc")
 
     fun saveCvInformation(cvInformation: CvInformation) {
-        // TODO: save information
-        this.cvInformation = cvInformation
+        cvInformationRepository.save(cvInformation)
     }
 }
