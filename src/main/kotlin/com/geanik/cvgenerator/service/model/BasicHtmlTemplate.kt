@@ -6,7 +6,10 @@ import java.io.ByteArrayOutputStream
 
 @Component
 class BasicHtmlTemplate : AbstractTemplate() {
-    override fun generateFile(info: CvInformation): ByteArray {
+    override val name: String
+        get() = "basic-html"
+
+    override fun populate(info: CvInformation): ByteArray {
         val fileBos = ByteArrayOutputStream()
         fileBos.bufferedWriter().use {
             it.appendln("<html>")
@@ -23,6 +26,6 @@ class BasicHtmlTemplate : AbstractTemplate() {
             it.appendln("</html>")
         }
 
-        return writeZip(listOf("index.html"), listOf(fileBos.toByteArray()))
+        return createZip(listOf(Pair("index.html", fileBos.toByteArray())))
     }
 }

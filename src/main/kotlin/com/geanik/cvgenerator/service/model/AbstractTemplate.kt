@@ -5,15 +5,14 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
 abstract class AbstractTemplate : Template {
-    protected fun writeZip(fileNames: Iterable<String>, fileContents: Iterable<ByteArray>): ByteArray {
+    protected fun createZip(files: Iterable<Pair<String, ByteArray>>): ByteArray {
         val zipBos = ByteArrayOutputStream()
-        val zip = ZipOutputStream(zipBos)
-        zip.use {
-            for (content in fileContents) {
-                val entry = ZipEntry("index.html")
+        ZipOutputStream(zipBos).use {
+            for (file in files) {
+                val entry = ZipEntry(file.first)
                 it.putNextEntry(entry)
 
-                it.write(content)
+                it.write(file.second)
                 it.closeEntry()
             }
         }

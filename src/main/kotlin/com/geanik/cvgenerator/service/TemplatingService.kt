@@ -8,11 +8,14 @@ import org.springframework.stereotype.Service
 @Service
 class TemplatingService {
     @Autowired
-    lateinit var templates: List<Template>
+    private lateinit var templates: List<Template>
 
-    fun getTemplateZip(info: CvInformation): ByteArray {
-        val template = templates.first()
+    fun getAvailableTemplates(): Collection<String>
+        = templates.map { t -> t.name }
 
-        return template.generateFile(info)
+    fun getTemplateZip(templateName: String, info: CvInformation): ByteArray? {
+        val template = templates.find { t -> t.name == templateName }
+
+        return template?.populate(info)
     }
 }

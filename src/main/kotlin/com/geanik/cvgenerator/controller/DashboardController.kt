@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.context.annotation.SessionScope
 import org.springframework.http.HttpStatus
 
-
 @Controller
 @SessionScope
 class DashboardController(private val cvGeneratorService: CvGeneratorService, private val templatingService: TemplatingService) {
@@ -24,8 +23,10 @@ class DashboardController(private val cvGeneratorService: CvGeneratorService, pr
     fun getDashboard(model: Model): String {
         val info = cvGeneratorService.loadCvInformation()
         currentInformation = info
-
         model.addAttribute("cvInformation", currentInformation)
+
+        model.addAttribute("availableTemplates", templatingService.getAvailableTemplates())
+
         return "dashboard"
     }
 
@@ -44,8 +45,8 @@ class DashboardController(private val cvGeneratorService: CvGeneratorService, pr
 
     @GetMapping("/download", produces = ["application/zip"])
     @ResponseBody
-    fun downloadTemplate(): ResponseEntity<ByteArray> {
-        val zip = templatingService.getTemplateZip(currentInformation)
+    fun downloadTemplate(template: String): ResponseEntity<ByteArray> {
+        val zip = templatingService.getTemplateZip(template, currentInformation)
         return ResponseEntity(zip, HttpStatus.OK)
     }
 }
