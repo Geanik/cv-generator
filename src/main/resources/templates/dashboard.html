@@ -13,7 +13,7 @@
 <body>
 <div class="container">
     <h1>CV-Generator</h1>
-    <form method="post" th:action="@{/update}" th:object="${cvInformation}">
+    <form th:method="post" th:action="@{/update}" th:object="${cvInformation}">
         <div class="form-group">
             <label for="firstName">First name</label>
             <input class="form-control" id="firstName" placeholder="Enter first name" th:field="*{firstName}"
@@ -42,6 +42,13 @@
         </div>
 
         <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+
+    <form th:action="@{/download}" th:method="get">
+        <select name="template">
+            <option th:each="template : ${availableTemplates}" th:value="${template}" th:text="${template}"></option>
+        </select>
+        <button class="btn btn-secondary" type="submit">Download</button>
     </form>
 </div>
 
