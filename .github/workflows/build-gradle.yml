@@ -1,15 +1,24 @@
 name: build gradle
 
-on: [push, pull_request]
+on: 
+  pull_request: {types: opened}
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v1
     - name: Execute Gradle task
       uses: MrRamych/gradle-actions/openjdk-8@3.1
       with:
         args: test
+  comment:
+    needs: build
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment Pull Request
+        uses: thollander/actions-comment-pull-request@1.0.0
+        with:
+          message: "failure"
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
